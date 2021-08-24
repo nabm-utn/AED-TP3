@@ -23,11 +23,11 @@ Se debe tener en cuenta que el International Standard Book Number (ISBN) es un i
 
 Se sabe que sus dígitos x1, x2, x3, ..., x10 satisfacen la relación:
 
-En definitiva, el resto de dividir esa suma por 11, debe dar cero. Por ejemplo, para el siguiente ISBN: 84-8181-227-7 se comprueba que:  10*8+9*4+8*8+7*1+6*8+5*1+4*2+3*2+2*7+7 = 275 y al dividir 275 por 11 vemos que el resto es 0. Lo que nos indica que es un ISBN válido (275 % 11 = 0).
+En definitiva, el resto de dividir esa suma por 11, debe dar cero. Por ejemplo, para el siguiente ISBN: 84-8181-227-7 se comprueba que:  10x8+9x4+8x8+7x1+6x8+5x1+4x2+3x2+2x7+7 = 275 y al dividir 275 por 11 vemos que el resto es 0. Lo que nos indica que es un ISBN válido (275 % 11 = 0).
 
     El siguiente ISBN 5555687-525 no es válido porque no tiene los 4 grupos.
     El ISBN 456--55-25438 tiene los 10 dígitos, y la cantidad de guiones correcta pero no tiene los 4 grupos dado que hay dos guiones seguidos.
-    Para el ISBN 451-567-43-89 se comprueba que: 10*4+9*5+8*1+7*5+6*6+5*7+4*4+3*3+2*8+9 = 249 y al dividir por 11 el resto no es cero, lo que nos indica que no es un ISBN válido.
+    Para el ISBN 451-567-43-89 se comprueba que: 10x4+9x5+8x1+7x5+6x6+5x7+4x4+3x3+2x8+9 = 249 y al dividir por 11 el resto no es cero, lo que nos indica que no es un ISBN válido.
 
 ### 2.) Mostrar: 
 Mostrar el vector generado en el punto anterior de tal manera que se muestre el género y el idioma del libro en lugar de los números que los representan y se listen ordenados por título en forma ascendente. Cada libro debe mostrarse a razón de una línea por registro.
