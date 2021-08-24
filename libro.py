@@ -13,6 +13,13 @@ class Libro:
         self.idioma = idioma
         self.precio = precio
 
+    def __str__(self):
+        base = "[{}] {} | {} - {} | ${}"
+        generos = ("Autoayuda", "Arte", "Ficción", "Computación", "Economía",
+                   "Escolar", "Sociedad", "Gastronomía", "Infantil", "Otros")
+        idiomas = ("español", "ingles", "frances", "italiano", "otros")
+        return base.format(self.isbn, self.titulo, generos[self.genero], idiomas[self.idioma-1], self.precio)
+
 
 def validar_isbn(posible_isbn):
     if len(posible_isbn) != 13:
@@ -83,6 +90,18 @@ def auto_fill(n=30):
     posibles_idiomas = [1, 2, 3, 4, 5]
     posibles_titulos = ["Mi planta de mandarina-limón",
                         "Ratero y yo",
+                        "A Game of Phones",
+                        "La vuelta al mundo en 90 días",
+                        "Le petit-roi",
+                        "A todo gas 7, desafío kyoto",
+                        "The Time of Wheel",
+                        "La banana mecánica",
+                        "Las crónicas de Marmia",
+                        "Jarry Qotter and the chamber of mysteries",
+                        "Don Quejote y su mancha",
+                        "Mati Fierro",
+                        "El código DiCaprio",
+
                         ]
 
     catalogo = []
@@ -114,3 +133,7 @@ if __name__ == "__main__":
             print("Error: generar_isbn ||", isbn)
             errores += 1
     print("{}% de errores...".format(errores/100))
+
+    my_catalogo = auto_fill(15)
+    for libro in my_catalogo:
+        print(libro)
