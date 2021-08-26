@@ -327,8 +327,22 @@ def solicitar_codigos():
 def consulta_combo(catalogo):
     codigos = solicitar_codigos()
     # Busca libros en el catalogo segun isbn
+
+    # version 1: reutilizando búsqueda por isbn
+    encontrados = []
+    no_encontrados = []
+    for codigo in codigos:
+        libro = busqueda_por_isbn(catalogo, codigo)
+        if libro:
+            encontrados.append(libro)
+        else:
+            no_encontrados.append(codigo)
+
+    """
+    # version 2: sin reutilizar pero más elegante
     encontrados = [codigo for codigo in codigos if codigo in [libro.isbn for libro in catalogo]]
     no_encontrados = [codigo for codigo in codigos if codigo not in encontrados]
+    """
 
     # Avisa que libros no se encontraron
     if len(no_encontrados) > 0:
