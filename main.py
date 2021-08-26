@@ -307,3 +307,45 @@ def mostrar_genero_popular(catalogo):
 # -> Usar codigo de 2.4
 # -> Acumulador de precio
 # -> Mostrar resultados
+
+def solicitar_codigos():
+    print("A continuación, deberá introducir los códigos de los libros que sean de su interes.")
+    exit = False
+    codigos = []
+    while not exit:
+        print("Hasta ahora se han cargado {} codigos.".format(len(codigos)))
+        isbn = input("Por favor ingres un código ISBN válido. Ingrese 0 para salir")
+        if isbn == "0":
+            exit = True
+        elif validar_isbn(isbn):
+            codigos.append(isbn)
+        else:
+            print("Codigo inválido")
+    return codigos
+
+
+def consulta_combo(catalogo):
+    codigos = solicitar_codigos()
+    # Busca libros en el catalogo segun isbn
+    encontrados = [codigo for codigo in codigos if codigo in [libro.isbn for libro in catalogo]]
+    no_encontrados = [codigo for codigo in codigos if codigo not in encontrados]
+
+    # Avisa que libros no se encontraron
+    if len(no_encontrados) > 0:
+        print("No se encontraron libros que correspondan a los siguientes {} códigos:".format(len(no_encontrados)))
+        for codigo in no_encontrados:
+            print(codigo)
+
+    #Trabaja con los libros que se encontraron
+    if len(encontrados) > 0:
+        print("Se encontraron los siguientes {} libros:".format(len(encontrados)))
+        encontrados = [libro for libro in catalogo if libro.isbn in encontrados]
+        precio_total = 0
+        for libro in encontrados:
+            print(libro)
+            precio_total += libro.precio
+        print("\n"+"-"*60)
+        print("El precio por todos los libros es de: ${}".format(precio_total))
+    else:
+        print("No se encontró ningún libro de los solicitados")
+
