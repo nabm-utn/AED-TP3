@@ -8,24 +8,15 @@ from libro import *
 
 
 def validar_positivo(n, minimo):
-    if minimo <= n:
-        return True
-    else:
-        return False
+    return minimo <= n
 
 
 def validar_genero(genero):
-    if 0 <= genero <= 9:
-        return True
-    else:
-        return False
+    return 0 <= genero <= 9
 
 
 def validar_idioma(idioma):
-    if 1 <= idioma < 5:
-        return True
-    else:
-        return False
+    return 1 <= idioma < 5
 
 
 def maximo(vector):
