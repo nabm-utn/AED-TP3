@@ -163,6 +163,32 @@ def generar_catalogo_manual(n):
 # -> Ordenar todo el arreglo alfabéticamente por titulo
 # -> Mostrar todos los libros con genero e idioma decodificados
 
+def ordenar_por_titulo(catalogo):
+    n = len(catalogo)
+    h = 1
+    while h <= n // 9:
+        h = 3 * h + 1
+
+    while h > 0:
+        for j in range(h, n):
+            y = catalogo[j]
+            k = j - h
+            while k >= 0 and y.titulo < catalogo[k].titulo:
+                catalogo[k + h] = catalogo[k]
+                k -= h
+            catalogo[k + h] = y
+        h //= 3
+
+
+def mostrar_libros_ordenados(catalogo):
+    ordenar_por_titulo(catalogo_principal)
+    print("Estos son los libros disponibles")
+    for libro in catalogo_principal:
+        print(libro)
+
+if __name__ == "__main__":
+    print("="*60+"\nTest parte 2.1\n")
+    mostrar_libros_ordenados(catalogo_principal)
 # ............................................. #
 # Parte 2.2 Popularidad de Genero
 # ............................................. #
@@ -234,6 +260,7 @@ def libro_mas_caro_idioma(catalogo, idioma):
 
 
 if __name__ == "__main__":
+    print("="*60+"\nTest parte 2.3\n")
     for idioma in range(1, 6):
         libro_mas_caro_idioma(catalogo_principal, idioma)
 
@@ -288,18 +315,36 @@ def sub_catalogo_genero(catalogo, genero):
     return [libro for libro in catalogo if libro.genero == genero]
 
 
-def ordenar_x_precio(catalogo):
-    pass
+def ordenar_por_precio(catalogo):
+    n = len(catalogo)
+    h = 1
+    while h <= n // 9:
+        h = 3 * h + 1
+
+    while h > 0:
+        for j in range(h, n):
+            y = catalogo[j]
+            k = j - h
+            while k >= 0 and y.precio < catalogo[k].precio:
+                catalogo[k + h] = catalogo[k]
+                k -= h
+            catalogo[k + h] = y
+        h //= 3
 
 
 def mostrar_genero_popular(catalogo):
     genero_popular = maximo(contar_x_genero(catalogo))
     catalogo = sub_catalogo_genero(catalogo, genero_popular)
-    ordenar_x_precio(catalogo)
+    ordenar_por_precio(catalogo)
+    catalogo = catalogo[::-1]
     print("\nListado de libros del genero más popular ({}):".format(genero_to_str(genero_popular)))
     for libro in catalogo:
         print(libro)
 
+
+if __name__ == "__main__":
+    print("="*60+"\nTest parte 2.5\n")
+    mostrar_genero_popular(catalogo_principal)
 
 # ............................................. #
 # Parte 2.6 Consulta Combo
@@ -338,11 +383,6 @@ def consulta_combo(catalogo):
         else:
             no_encontrados.append(codigo)
 
-    """
-    # version 2: sin reutilizar pero más elegante
-    encontrados = [codigo for codigo in codigos if codigo in [libro.isbn for libro in catalogo]]
-    no_encontrados = [codigo for codigo in codigos if codigo not in encontrados]
-    """
 
     # Avisa que libros no se encontraron
     if len(no_encontrados) > 0:
