@@ -1,8 +1,7 @@
 """
 Este es el programa principal. A continuación voy a armar una estructura base a partir de comentarios.
 """
-import libro
-
+from libro import *
 # ============================================= #
 # Parte 0 Funciones Auxiliares
 # ============================================= #
@@ -27,6 +26,32 @@ def validar_idioma(idioma):
         return True
     else:
         return False
+
+
+def maximo(vector):
+    """
+    Devuelve el índice del valor máximo de un vector. Si hay más de un valor máximo retorna solo el primero
+    Es equivalente (aunque con peor performance) al builtin max()
+    :param vector: un iterable con valores numéricos
+    :return: el indice del valor mayor del vector provisto
+    """
+    maximo = -9999
+    maximo_index = None
+    index = 0
+    for elemento in vector:
+        if elemento > max:
+            maximo = elemento
+            maximo_index = index
+        index += 1
+    return maximo_index
+
+
+def genero_to_str(genero):
+    if not 0 <= genero <= 9:
+        return "genero desconocido"
+    generos = ("Autoayuda", "Arte", "Ficción", "Computación", "Economía",
+               "Escolar", "Sociedad", "Gastronomía", "Infantil", "Otros")
+    return generos[genero]
 
 
 # ............................................. #
@@ -102,7 +127,7 @@ catalogo_principal = []
 cargado_automatico = True
 
 if cargado_automatico:
-    catalogo_principal += libro.auto_fill(30)
+    catalogo_principal += auto_fill(30)
 
 # ............................................. #
 # Parte 1.2 Generación Manual
@@ -111,7 +136,7 @@ if cargado_automatico:
 
 def generar_libro_manual():
     isbn = input('Código de Identificación (ISBN): ')
-    while not libro.validar_isbn(isbn):
+    while not validar_isbn(isbn):
         print('Error. ISBN no válido, ingrese otro.')
         isbn = input('Código de Identificación (ISBN): ')
     titulo = input('Título: ')
@@ -127,7 +152,7 @@ def generar_libro_manual():
     while not validar_positivo(precio, 0):
         print('Error, para cargar el precio no se admiten valores negativos, ingrese otro valor.')
         precio = round(float(input('Precio: $')), 2)
-    return libro.Libro(isbn, titulo, genero, idioma, precio)
+    return Libro(isbn, titulo, genero, idioma, precio)
 
 
 def generar_catalogo_manual(n):
@@ -152,6 +177,27 @@ def generar_catalogo_manual(n):
 # ............................................. #
 # -> Vector de Conteo
 
+
+def contar_x_genero(catalogo):
+    contador = 10 * [0]
+    for libro in catalogo:
+        contador[libro.genero] += 1
+    return contador
+
+
+def display_x_genero(contador):
+    for i in range(len(contador)):
+            print("El genero {} contiene: {:02d} libros".format(genero_to_str(i)), contador[i])
+
+
+def conteo_y_genero_popular(catalogo):
+    contador = contar_x_genero(catalogo)
+    display_x_genero(contador)
+    genero_popular = maximo(contador)
+    cantidad_popular = contador[genero_popular]
+    print("El género más popular es {} con un total de {} libros".format(genero_popular, cantidad_popular))
+
+
 # ............................................. #
 # Parte 2.3 Libro mas caro segun idioma
 # ............................................. #
@@ -159,7 +205,7 @@ def generar_catalogo_manual(n):
 # -> encontrar el mayor y mostrarlo
 
 
-def sub_catalogo_idioma(catalogo=catalogo_principal, idioma=1):
+def sub_catalogo_idioma(catalogo, idioma):
     """
     :param catalogo: un vector de registros del tipo libro
     :param idioma: un entero entre 1 y 5 que codifica un idioma
@@ -209,6 +255,36 @@ if __name__ == "__main__":
 # -> Mostrar datos
 # -> Aumentar precio (10%)
 
+
+def busqueda_por_isbn(catalogo, isbn):
+    for libro in catalogo:
+        if libro.isbn == isbn:
+            return libro
+    return False
+
+
+def aumentar_10(libro):
+    confirma = input("Presione s para subir precio 10%")
+    if confirma == "s" or confirma == "S":
+        libro.precio *= 1.1
+        print("El nuevo precio es: ${}".format(libro.precio))
+    else:
+        print("Se mantiene el precio original: ${}".format(libro.precio))
+
+
+def buscar_y_subir_precio(catalogo, isbn):
+    if not validar_isbn():
+        print("El ISBN solicitado no es válido")
+        return
+    libro = busqueda_por_isbn(catalogo, isbn)
+    if libro:
+        print("Libro encontrado:")
+        print(libro)
+        aumentar_10(libro)
+    else:
+        print("No se encontró el libro en cuestión")
+
+
 # ............................................. #
 # Parte 2.5 Display Libros Genero Popular
 # ............................................. #
@@ -216,6 +292,23 @@ if __name__ == "__main__":
 # -> Generar un vectorcito de libros del genero
 # -> Ordenarlo
 # -> Mostrarlo
+
+def sub_catalogo_genero(catalogo, genero):
+    return [libro for libro in catalogo if libro.genero == genero]
+
+
+def ordenar_x_precio(catalogo):
+    pass
+
+
+def mostrar_genero_popular(catalogo):
+    genero_popular = maximo(contar_x_genero(catalogo))
+    catalogo = sub_catalogo_genero(catalogo, genero_popular)
+    ordenar_x_precio(catalogo)
+    print("\nListado de libros del genero más popular ({}):".format(genero_to_str(genero_popular)))
+    for libro in catalogo:
+        print(libro)
+
 
 # ............................................. #
 # Parte 2.6 Consulta Combo
