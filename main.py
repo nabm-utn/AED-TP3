@@ -30,7 +30,7 @@ def maximo(vector):
     maximo_index = None
     index = 0
     for elemento in vector:
-        if elemento > max:
+        if elemento > maximo:
             maximo = elemento
             maximo_index = index
         index += 1
@@ -178,7 +178,7 @@ def contar_x_genero(catalogo):
 
 def display_x_genero(contador):
     for i in range(len(contador)):
-            print("El genero {} contiene: {:02d} libros".format(genero_to_str(i)), contador[i])
+        print("El genero {} contiene: {:02d} libros".format(genero_to_str(i), contador[i]))
 
 
 def conteo_y_genero_popular(catalogo):
@@ -264,7 +264,7 @@ def aumentar_10(libro):
 
 
 def buscar_y_subir_precio(catalogo, isbn):
-    if not validar_isbn():
+    if not validar_isbn(isbn):
         print("El ISBN solicitado no es válido")
         return
     libro = busqueda_por_isbn(catalogo, isbn)
@@ -310,13 +310,13 @@ def mostrar_genero_popular(catalogo):
 
 def solicitar_codigos():
     print("A continuación, deberá introducir los códigos de los libros que sean de su interes.")
-    exit = False
+    exit_flag = False
     codigos = []
-    while not exit:
+    while not exit_flag:
         print("Hasta ahora se han cargado {} codigos.".format(len(codigos)))
         isbn = input("Por favor ingres un código ISBN válido. Ingrese 0 para salir")
         if isbn == "0":
-            exit = True
+            exit_flag = True
         elif validar_isbn(isbn):
             codigos.append(isbn)
         else:
@@ -336,7 +336,7 @@ def consulta_combo(catalogo):
         for codigo in no_encontrados:
             print(codigo)
 
-    #Trabaja con los libros que se encontraron
+    # Trabaja con los libros que se encontraron
     if len(encontrados) > 0:
         print("Se encontraron los siguientes {} libros:".format(len(encontrados)))
         encontrados = [libro for libro in catalogo if libro.isbn in encontrados]
@@ -348,4 +348,3 @@ def consulta_combo(catalogo):
         print("El precio por todos los libros es de: ${}".format(precio_total))
     else:
         print("No se encontró ningún libro de los solicitados")
-
