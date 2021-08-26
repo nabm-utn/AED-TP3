@@ -79,3 +79,50 @@ for i in range(n):
             print('Error, para cargar el precio no se admiten valores negativos, ingrese otro valor.')
             pre = round(float(input('Precio: $')), 2)
     catalogo[i] = Libro(cod, tit, gen, idi, pre)
+
+
+def buscar_y_subir_precio(catalogo, isbn):
+    for i in range(len(catalogo)):
+        if isbn == catalogo[i].isbn:
+            print('Libro encontrado')
+            # Acá hay que mostrar los datos del libro no sé como hacerlo
+            confirma = input('Presione s para subir precio 10%')
+            if confirma == 's' or confirma == 'S':
+                catalogo[i].precio *= 1.1
+                print('El nuevo precio es: $', catalogo[i].precio)
+            # no me queda claro que pasa si presiona otra tecla que no sea S
+        else:
+            print('Libro no encontrado')
+
+
+def contar_x_genero(catalogo, generos, opcion):
+    contador = 10 * [0]
+    mayor = 0
+    for i in range(len(catalogo)):
+        contador[catalogo[i].genero] +=1
+    for i in range(len(contador)):
+        if opcion == 3:
+            print('el género', generos[i], 'tiene', contador[i], 'libros')
+        if contador[i] > mayor:
+            mayor = generos[i], i, contador[i]
+    if opcion == '3':
+        print('El género con mayor cantidad de libros es:', mayor[0])
+    elif opcion == '6':
+        return mayor
+
+
+def ordenar_mayor_a_menor(vector):
+    pass
+
+
+def consultar_libros_de_un_genero(catalogo, mayor):
+    genero_popular = [None] * mayor[2]
+    g = 0
+    for i in range(len(catalogo)):
+        if catalogo[i].genero == mayor[1]:
+            genero_popular[g] = catalogo[i]
+            g += 1
+    ordenar_mayor_a_menor(genero_popular)
+    for i in range(len(genero_popular)):
+        print(genero_popular[i])
+
