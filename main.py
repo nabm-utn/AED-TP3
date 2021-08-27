@@ -32,14 +32,13 @@ Menú de opciones   |  Libros disponibles: {}
         print(menu.format(len(catalogo)))
         opcion = input('Ingrese opción: ')
         if opcion == '1':
-            generar_actualizar_catalogo(catalogo)
-            input("...")
+            actualizar_catalogo(catalogo)
         elif opcion == '2':
             mostrar_libros_ordenados(catalogo)
             input("...")
         elif opcion == '3':
-            pass
-            # opcion3()
+            conteo_y_genero_popular(catalogo)
+            input("...")
         elif opcion == '4':
             pass
             # opcion4()
@@ -113,7 +112,7 @@ def ordenar_por_precio(catalogo):
 catalogo_principal = []
 
 
-def generar_actualizar_catalogo(catalogo):
+def actualizar_catalogo(catalogo):
     menu = """Libros en el catálogo: {}
 Por favor seleccione el tipo de carga a realizar
 1.) Manual
@@ -132,7 +131,6 @@ Por favor seleccione el tipo de carga a realizar
 # ............................................. #
 # Parte 1 Generación Automática
 # ............................................. #
-# Esto de acá abajo es placeholder para las pruebas. Despues se quita a a la mergas...
 def generar_catalogo_automatico():
     n = input_int_positivo("Ingrese la cantidad de libros a generar (0 para cancelar): ")
     return auto_fill(n)
@@ -171,16 +169,9 @@ def generar_catalogo_manual():
     return catalogo
 
 
-if __name__ == "__main__" and test:
-    generar_actualizar_catalogo(catalogo_principal)
-    [print(libro) for libro in catalogo_principal]
-
-
 # ............................................. #
 # Consigna 2 Display General
 # ............................................. #
-# -> Ordenar el arreglo alfabéticamente por titulo
-# -> Mostrar todos los libros con genero e idioma decodificados
 def mostrar_libros_ordenados(catalogo):
     ordenar_por_titulo(catalogo)
     print("Estos son los libros disponibles")
@@ -188,15 +179,9 @@ def mostrar_libros_ordenados(catalogo):
         print(libro)
 
 
-if __name__ == "__main__" and test:
-    print("="*60+"\nTest Consigna 2\n")
-    mostrar_libros_ordenados(catalogo_principal)
-
-
 # ............................................. #
 # Consigna 3 Popularidad de Genero
 # ............................................. #
-# -> Vector de Conteo
 def contar_x_genero(catalogo):
     contador = 10 * [0]
     for libro in catalogo:
@@ -214,6 +199,7 @@ def conteo_y_genero_popular(catalogo):
     display_x_genero(contador)
     genero_popular = maximo(contador)
     cantidad_popular = contador[genero_popular]
+    genero_popular = genero_to_str(genero_popular)
     print("El género más popular es {} con un total de {} libros".format(genero_popular, cantidad_popular))
 
 
