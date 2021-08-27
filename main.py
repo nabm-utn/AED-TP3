@@ -2,19 +2,24 @@
 Este es el programa principal. A continuación voy a armar una estructura base a partir de comentarios.
 """
 from libro import Libro
-from helper import validar_positivo, validar_genero, validar_idioma, maximo, genero_to_str
+from helper import validar_positivo, input_int_positivo, validar_genero, validar_idioma, maximo, genero_to_str
 from isbn import validar_isbn
 from auto import auto_fill
+
+
+test = False
 
 
 # ............................................. #
 # Parte 0.1 Menú de Opciones General
 # ............................................. #
-def menu_de_opciones():
+def menu_de_opciones(catalogo):
     opcion = None
     menu = """
-Menú de opciones
-----------------
+Bienvenido a PyBooks!
+-----------------------------------------------------
+Menú de opciones   |  Libros disponibles: {}
+-----------------------------------------------------
 1.) Generar y cargar el catálogo de libros a la venta
 2.) Ver el catálogo en orden alfabético
 3.) Ver la cantidad de libros por género y conocer el género con mayor cantidad de libros
@@ -24,14 +29,14 @@ Menú de opciones
 7.) Consultar existencia de libros escolares solicitados para el ciclo lectivo y obtener precio por grupo
 8.) Finalizar programa"""
     while opcion != '8':
-        print(menu)
+        print(menu.format(len(catalogo)))
         opcion = input('Ingrese opción: ')
         if opcion == '1':
-            # opcion1()
-            pass
+            generar_actualizar_catalogo(catalogo)
+            input("...")
         elif opcion == '2':
-            pass
-            # opcion2()
+            mostrar_libros_ordenados(catalogo)
+            input("...")
         elif opcion == '3':
             pass
             # opcion3()
@@ -108,13 +113,29 @@ def ordenar_por_precio(catalogo):
 catalogo_principal = []
 
 
+def generar_actualizar_catalogo(catalogo):
+    menu = """Libros en el catálogo: {}
+Por favor seleccione el tipo de carga a realizar
+1.) Manual
+2.) Automática
+3.) Cancelar"""
+    opcion = None
+    while opcion != "3":
+        print(menu.format(len(catalogo)))
+        opcion = input("Ingrese una opción: ")
+        if opcion == "1":
+            catalogo += generar_catalogo_manual()
+        elif opcion == "2":
+            catalogo += generar_catalogo_automatico()
+
+
 # ............................................. #
 # Parte 1 Generación Automática
 # ............................................. #
 # Esto de acá abajo es placeholder para las pruebas. Despues se quita a a la mergas...
-cargado_automatico = True
-if cargado_automatico:
-    catalogo_principal += auto_fill(30)
+def generar_catalogo_automatico():
+    n = input_int_positivo("Ingrese la cantidad de libros a generar (0 para cancelar): ")
+    return auto_fill(n)
 
 
 # ............................................. #
@@ -141,11 +162,18 @@ def generar_libro_manual():
     return Libro(isbn, titulo, genero, idioma, precio)
 
 
-def generar_catalogo_manual(n):
+def generar_catalogo_manual():
     catalogo = []
+    n = input_int_positivo("Ingrese la cantidad de libros a generar (0 para cancelar): ")
     for i in range(n):
+        print("\nLibro {} de {}".format(i+1, n))
         catalogo.append(generar_libro_manual())
     return catalogo
+
+
+if __name__ == "__main__" and test:
+    generar_actualizar_catalogo(catalogo_principal)
+    [print(libro) for libro in catalogo_principal]
 
 
 # ............................................. #
@@ -160,7 +188,7 @@ def mostrar_libros_ordenados(catalogo):
         print(libro)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and test:
     print("="*60+"\nTest Consigna 2\n")
     mostrar_libros_ordenados(catalogo_principal)
 
@@ -222,7 +250,7 @@ def libro_mas_caro_idioma(catalogo, idioma):
     print(libro_mas_caro(sub_catalogo_idioma(catalogo, idioma)))
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and test:
     print("="*60+"\nTest Consigna 4\n")
     for idioma in range(1, 6):
         libro_mas_caro_idioma(catalogo_principal, idioma)
@@ -281,7 +309,7 @@ def mostrar_genero_popular(catalogo):
         print(libro)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and test:
     print("="*60+"\nTest parte 2.5\n")
     mostrar_genero_popular(catalogo_principal)
 
@@ -339,3 +367,7 @@ def consulta_combo(catalogo):
         print("El precio por todos los libros es de: ${}".format(precio_total))
     else:
         print("No se encontró ningún libro de los solicitados")
+
+
+if __name__ == "__main__":
+    menu_de_opciones(catalogo_principal)

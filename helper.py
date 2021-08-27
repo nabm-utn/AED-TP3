@@ -3,6 +3,18 @@ def validar_positivo(n, minimo):
     return minimo <= n
 
 
+def input_int_positivo(msj):
+    n = -1
+    while not validar_positivo(n, 0):
+        n = input(msj)
+        try:
+            n = int(n)
+        except ValueError:
+            print("Debe ingresar un numero entero positivo")
+            n = -1
+    return n
+
+
 def validar_genero(genero):
     return 0 <= genero <= 9
 
