@@ -1,55 +1,15 @@
 """
 Este es el programa principal. A continuación voy a armar una estructura base a partir de comentarios.
 """
-from libro import *
-# ============================================= #
-# Parte 0 Funciones Auxiliares
-# ============================================= #
-
-
-def validar_positivo(n, minimo):
-    return minimo <= n
-
-
-def validar_genero(genero):
-    return 0 <= genero <= 9
-
-
-def validar_idioma(idioma):
-    return 1 <= idioma < 5
-
-
-def maximo(vector):
-    """
-    Devuelve el índice del valor máximo de un vector. Si hay más de un valor máximo retorna solo el primero
-    Es equivalente (aunque con peor performance) al builtin max()
-    :param vector: un iterable con valores numéricos
-    :return: el indice del valor mayor del vector provisto
-    """
-    maximo = -9999
-    maximo_index = None
-    index = 0
-    for elemento in vector:
-        if elemento > maximo:
-            maximo = elemento
-            maximo_index = index
-        index += 1
-    return maximo_index
-
-
-def genero_to_str(genero):
-    if not 0 <= genero <= 9:
-        return "genero desconocido"
-    generos = ("Autoayuda", "Arte", "Ficción", "Computación", "Economía",
-               "Escolar", "Sociedad", "Gastronomía", "Infantil", "Otros")
-    return generos[genero]
+from libro import Libro
+from helper import validar_positivo, validar_genero, validar_idioma, maximo, genero_to_str
+from isbn import validar_isbn
+from auto import auto_fill
 
 
 # ............................................. #
 # Parte 0.1 Menú de Opciones General
 # ............................................. #
-
-
 def menu_de_opciones():
     opcion = None
     menu = """
@@ -98,33 +58,68 @@ Menú de opciones
 
 
 # ............................................. #
-# Parte 0.2 Validación ISBN
+# Parte 0.3 Slicing y Ordenamiento del catalogo
 # ............................................. #
-# => HECHO en libro.py
+def sub_catalogo_idioma(catalogo, idioma):
+    return [libro for libro in catalogo if libro.idioma == idioma]
 
-# ............................................. #
-# Parte 0.3 Ordenar arreglo
-# ............................................. #
+
+def sub_catalogo_genero(catalogo, genero):
+    return [libro for libro in catalogo if libro.genero == genero]
+
+
+def ordenar_por_titulo(catalogo):
+    n = len(catalogo)
+    h = 1
+    while h <= n // 9:
+        h = 3 * h + 1
+
+    while h > 0:
+        for j in range(h, n):
+            y = catalogo[j]
+            k = j - h
+            while k >= 0 and y.titulo < catalogo[k].titulo:
+                catalogo[k + h] = catalogo[k]
+                k -= h
+            catalogo[k + h] = y
+        h //= 3
+
+
+def ordenar_por_precio(catalogo):
+    n = len(catalogo)
+    h = 1
+    while h <= n // 9:
+        h = 3 * h + 1
+
+    while h > 0:
+        for j in range(h, n):
+            y = catalogo[j]
+            k = j - h
+            while k >= 0 and y.precio < catalogo[k].precio:
+                catalogo[k + h] = catalogo[k]
+                k -= h
+            catalogo[k + h] = y
+        h //= 3
+
 
 # ============================================= #
-# Parte 1 Generación del vector de registros.
+# Consigna 1 Generación del vector de registros.
 # ============================================= #
-
 catalogo_principal = []
 
-# ............................................. #
-# Parte 1.1 Generación Automática
-# ............................................. #
-cargado_automatico = True
 
+# ............................................. #
+# Parte 1 Generación Automática
+# ............................................. #
+# Esto de acá abajo es placeholder para las pruebas. Despues se quita a a la mergas...
+cargado_automatico = True
 if cargado_automatico:
     catalogo_principal += auto_fill(30)
 
-# ............................................. #
-# Parte 1.2 Generación Manual
-# ............................................. #
 
-
+# ............................................. #
+# Parte 2 Generación Manual
+# ............................................. #
 def generar_libro_manual():
     isbn = input('Código de Identificación (ISBN): ')
     while not validar_isbn(isbn):
@@ -153,48 +148,27 @@ def generar_catalogo_manual(n):
     return catalogo
 
 
-# ============================================= #
-# Parte 2 Manipulación del vector de registros.
-# ============================================= #
-
 # ............................................. #
-# Parte 2.1 Display General
+# Consigna 2 Display General
 # ............................................. #
-# -> Ordenar todo el arreglo alfabéticamente por titulo
+# -> Ordenar el arreglo alfabéticamente por titulo
 # -> Mostrar todos los libros con genero e idioma decodificados
-
-def ordenar_por_titulo(catalogo):
-    n = len(catalogo)
-    h = 1
-    while h <= n // 9:
-        h = 3 * h + 1
-
-    while h > 0:
-        for j in range(h, n):
-            y = catalogo[j]
-            k = j - h
-            while k >= 0 and y.titulo < catalogo[k].titulo:
-                catalogo[k + h] = catalogo[k]
-                k -= h
-            catalogo[k + h] = y
-        h //= 3
-
-
 def mostrar_libros_ordenados(catalogo):
-    ordenar_por_titulo(catalogo_principal)
+    ordenar_por_titulo(catalogo)
     print("Estos son los libros disponibles")
-    for libro in catalogo_principal:
+    for libro in catalogo:
         print(libro)
 
+
 if __name__ == "__main__":
-    print("="*60+"\nTest parte 2.1\n")
+    print("="*60+"\nTest Consigna 2\n")
     mostrar_libros_ordenados(catalogo_principal)
+
+
 # ............................................. #
-# Parte 2.2 Popularidad de Genero
+# Consigna 3 Popularidad de Genero
 # ............................................. #
 # -> Vector de Conteo
-
-
 def contar_x_genero(catalogo):
     contador = 10 * [0]
     for libro in catalogo:
@@ -216,21 +190,10 @@ def conteo_y_genero_popular(catalogo):
 
 
 # ............................................. #
-# Parte 2.3 Libro mas caro segun idioma
+# Consigna 4 Libro mas caro segun idioma
 # ............................................. #
 # -> Vector de registros de un dado idioma
 # -> encontrar el mayor y mostrarlo
-
-
-def sub_catalogo_idioma(catalogo, idioma):
-    """
-    :param catalogo: un vector de registros del tipo libro
-    :param idioma: un entero entre 1 y 5 que codifica un idioma
-    :return: un vector con el subconjunto de libros del idioma especificado
-    """
-    return [libro for libro in catalogo if libro.idioma == idioma]
-
-
 def libro_mas_caro(catalogo):
     """
     :param catalogo: un vector de registros del tipo libro
@@ -260,20 +223,18 @@ def libro_mas_caro_idioma(catalogo, idioma):
 
 
 if __name__ == "__main__":
-    print("="*60+"\nTest parte 2.3\n")
+    print("="*60+"\nTest Consigna 4\n")
     for idioma in range(1, 6):
         libro_mas_caro_idioma(catalogo_principal, idioma)
 
 
 # ............................................. #
-# Parte 2.4 Busqueda por ISBN
+# Consigna 5 Busqueda por ISBN
 # ............................................. #
 # -> Validar ISBN
 # -> Buscar si hay coincidencia
 # -> Mostrar datos
 # -> Aumentar precio (10%)
-
-
 def busqueda_por_isbn(catalogo, isbn):
     for libro in catalogo:
         if libro.isbn == isbn:
@@ -304,34 +265,12 @@ def buscar_y_subir_precio(catalogo, isbn):
 
 
 # ............................................. #
-# Parte 2.5 Display Libros Genero Popular
+# Consigna 6 Display Libros Genero Popular
 # ............................................. #
-# -> Usar codigo de 2.2
+# -> Usar codigo de Consigna 3
 # -> Generar un vectorcito de libros del genero
 # -> Ordenarlo
 # -> Mostrarlo
-
-def sub_catalogo_genero(catalogo, genero):
-    return [libro for libro in catalogo if libro.genero == genero]
-
-
-def ordenar_por_precio(catalogo):
-    n = len(catalogo)
-    h = 1
-    while h <= n // 9:
-        h = 3 * h + 1
-
-    while h > 0:
-        for j in range(h, n):
-            y = catalogo[j]
-            k = j - h
-            while k >= 0 and y.precio < catalogo[k].precio:
-                catalogo[k + h] = catalogo[k]
-                k -= h
-            catalogo[k + h] = y
-        h //= 3
-
-
 def mostrar_genero_popular(catalogo):
     genero_popular = maximo(contar_x_genero(catalogo))
     catalogo = sub_catalogo_genero(catalogo, genero_popular)
@@ -346,13 +285,13 @@ if __name__ == "__main__":
     print("="*60+"\nTest parte 2.5\n")
     mostrar_genero_popular(catalogo_principal)
 
+
 # ............................................. #
-# Parte 2.6 Consulta Combo
+# Consigna 7 Consulta Combo
 # ............................................. #
-# -> Usar codigo de 2.4
+# -> Usar codigo de Consigna 5
 # -> Acumulador de precio
 # -> Mostrar resultados
-
 def solicitar_codigos():
     print("A continuación, deberá introducir los códigos de los libros que sean de su interes.")
     exit_flag = False
@@ -371,9 +310,8 @@ def solicitar_codigos():
 
 def consulta_combo(catalogo):
     codigos = solicitar_codigos()
-    # Busca libros en el catalogo segun isbn
 
-    # version 1: reutilizando búsqueda por isbn
+    # Busca libros en el catalogo segun isbn
     encontrados = []
     no_encontrados = []
     for codigo in codigos:
@@ -382,7 +320,6 @@ def consulta_combo(catalogo):
             encontrados.append(libro)
         else:
             no_encontrados.append(codigo)
-
 
     # Avisa que libros no se encontraron
     if len(no_encontrados) > 0:
