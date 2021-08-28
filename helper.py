@@ -37,10 +37,10 @@ def maximo(vector):
     maximo_index = 0
     index = 0
     for elemento in vector[1:]:
+        index += 1
         if elemento > maximo:
             maximo = elemento
             maximo_index = index
-        index += 1
     return maximo_index
 
 
