@@ -1,17 +1,20 @@
 # Funciones Generales
-def validar_positivo(n, minimo):
+def validar_positivo(n, minimo=0, maximo=0):
+    if maximo and minimo < maximo:
+        return minimo <= n <= maximo
     return minimo <= n
 
 
-def input_int_positivo(msj):
-    n = -1
-    while not validar_positivo(n, 0):
-        n = input(msj)
-        try:
-            n = int(n)
-        except ValueError:
-            print("Debe ingresar un numero entero positivo")
-            n = -1
+def input_int_positivo(msj, minimo=0, maximo=0):
+    n = int(input(msj))
+    while not validar_positivo(n, minimo, maximo):
+        warning = "Debe ingresar un numero entero positivo"
+        if minimo:
+            warning += " mayor a {}".format(minimo)
+        if maximo:
+            warning += " menor a {}".format(maximo)
+        print(warning)
+        n = int(input(msj))
     return n
 
 
@@ -30,10 +33,10 @@ def maximo(vector):
     :param vector: un iterable con valores numéricos
     :return: el indice del valor mayor del vector provisto
     """
-    maximo = -9999
-    maximo_index = None
+    maximo = vector[0]
+    maximo_index = 0
     index = 0
-    for elemento in vector:
+    for elemento in vector[1:]:
         if elemento > maximo:
             maximo = elemento
             maximo_index = index
@@ -42,11 +45,15 @@ def maximo(vector):
 
 
 def genero_to_str(genero):
-    if not 0 <= genero <= 9:
+    if not validar_genero(genero):
         return "genero desconocido"
     generos = ("Autoayuda", "Arte", "Ficción", "Computación", "Economía",
                "Escolar", "Sociedad", "Gastronomía", "Infantil", "Otros")
     return generos[genero]
 
 
-# Funciones asociadas a ISBN
+def idioma_to_str(idioma):
+    if not validar_idioma(idioma):
+        return "idioma desconocido"
+    idiomas = ("español", "ingles", "frances", "italiano", "otros")
+    return idiomas[idioma-1]

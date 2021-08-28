@@ -2,7 +2,7 @@
 Este es el programa principal. A continuación voy a armar una estructura base a partir de comentarios.
 """
 from libro import Libro
-from helper import validar_positivo, input_int_positivo, validar_genero, validar_idioma, maximo, genero_to_str
+from helper import validar_positivo, input_int_positivo, validar_genero, validar_idioma, maximo, genero_to_str, idioma_to_str
 from isbn import validar_isbn
 from auto import auto_fill
 
@@ -40,11 +40,11 @@ Menú de opciones   |  Libros disponibles: {}
             conteo_y_genero_popular(catalogo)
             input("...")
         elif opcion == '4':
-            pass
-            # opcion4()
+            libro_mas_caro_por_idioma(catalogo)
+            input("...")
         elif opcion == '5':
-            pass
-            # opcion5()
+            buscar_y_subir_precio(catalogo)
+            input("...")
         elif opcion == '6':
             pass
             # opcion6()
@@ -206,8 +206,17 @@ def conteo_y_genero_popular(catalogo):
 # ............................................. #
 # Consigna 4 Libro mas caro segun idioma
 # ............................................. #
-# -> Vector de registros de un dado idioma
-# -> encontrar el mayor y mostrarlo
+def solicitar_idioma():
+    menu = """Los idiomas disponibles son:
+1.) Español
+2.) Ingles
+3.) Frances
+4.) Italiano
+5.) Otros"""
+    idioma = input_int_positivo("Seleccione un Idioma: ", 1, 5)
+    return idioma
+
+
 def libro_mas_caro(catalogo):
     """
     :param catalogo: un vector de registros del tipo libro
@@ -222,7 +231,7 @@ def libro_mas_caro(catalogo):
     return libro_max
 
 
-def libro_mas_caro_idioma(catalogo, idioma):
+def libro_mas_caro_por_idioma(catalogo):
     """
     Imprime un mensaje indicando el libro más caro del idioma especificado
 
@@ -230,16 +239,9 @@ def libro_mas_caro_idioma(catalogo, idioma):
     :param idioma: un entero entre 1 y 5 que codifica un idioma
     :return: None
     """
-    idiomas = ("español", "ingles", "frances", "italiano", "otros")
-    idioma_str = idiomas[idioma-1]
-    print("El libro más caro escrito en el idioma {}:".format(idioma_str))
+    idioma = solicitar_idioma()
+    print("\nEl libro más caro escrito en el idioma {}:".format(idioma_to_str(idioma)))
     print(libro_mas_caro(sub_catalogo_idioma(catalogo, idioma)))
-
-
-if __name__ == "__main__" and test:
-    print("="*60+"\nTest Consigna 4\n")
-    for idioma in range(1, 6):
-        libro_mas_caro_idioma(catalogo_principal, idioma)
 
 
 # ............................................. #
@@ -249,6 +251,14 @@ if __name__ == "__main__" and test:
 # -> Buscar si hay coincidencia
 # -> Mostrar datos
 # -> Aumentar precio (10%)
+def solicitar_isbn():
+    isbn = input("Ingrese un isbn valido:")
+    while not validar_isbn(isbn):
+        print("El ISBN solicitado no es válido")
+        isbn = input("Ingrese un isbn valido:")
+    return isbn
+
+
 def busqueda_por_isbn(catalogo, isbn):
     for libro in catalogo:
         if libro.isbn == isbn:
@@ -265,10 +275,8 @@ def aumentar_10(libro):
         print("Se mantiene el precio original: ${}".format(libro.precio))
 
 
-def buscar_y_subir_precio(catalogo, isbn):
-    if not validar_isbn(isbn):
-        print("El ISBN solicitado no es válido")
-        return
+def buscar_y_subir_precio(catalogo):
+    isbn = solicitar_isbn()
     libro = busqueda_por_isbn(catalogo, isbn)
     if libro:
         print("Libro encontrado:")
