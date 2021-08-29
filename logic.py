@@ -270,7 +270,6 @@ def consulta_combo(catalogo):
     # Trabaja con los libros que se encontraron
     if len(encontrados) > 0:
         print("Se encontraron los siguientes {} libros:".format(len(encontrados)))
-        encontrados = [libro for libro in catalogo if libro.isbn in encontrados]
         precio_total = 0
         for libro in encontrados:
             print(libro)
