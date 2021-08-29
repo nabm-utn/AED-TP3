@@ -8,7 +8,8 @@ from auto import auto_fill
 # Consigna 1 Generación del vector de registros.
 # ============================================= #
 def actualizar_catalogo(catalogo):
-    menu = """Libros en el catálogo: {}
+    menu = """
+Libros en el catálogo: {}
 Por favor seleccione el tipo de carga a realizar
 1.) Manual
 2.) Automática
@@ -236,7 +237,7 @@ def solicitar_codigos():
     codigos = []
     while not exit_flag:
         print("Hasta ahora se han cargado {} codigos.".format(len(codigos)))
-        isbn = input("Por favor ingres un código ISBN válido. Ingrese 0 para salir")
+        isbn = input("Por favor ingres un código ISBN válido. Ingrese 0 para salir\n")
         if isbn == "0":
             exit_flag = True
         elif validar_isbn(isbn):
