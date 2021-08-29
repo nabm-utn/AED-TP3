@@ -16,5 +16,5 @@ class Libro:
         base = "[{}] {} | {} - {} | ${}"
         generos = ("Autoayuda", "Arte", "Ficción", "Computación", "Economía",
                    "Escolar", "Sociedad", "Gastronomía", "Infantil", "Otros")
-        idiomas = ("español", "ingles", "frances", "italiano", "otros")
+        idiomas = ("español", "inglés", "francés", "italiano", "otros")
         return base.format(self.isbn, self.titulo, generos[self.genero], idiomas[self.idioma-1], self.precio)
