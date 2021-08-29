@@ -125,7 +125,7 @@ def contar_x_genero(catalogo):
 
 def display_x_genero(contador):
     for i in range(len(contador)):
-        print("El genero {} contiene: {:02d} libros".format(genero_to_str(i), contador[i]))
+        print("El género {} contiene: {:02d} libros".format(genero_to_str(i), contador[i]))
 
 
 # ............................................. #
