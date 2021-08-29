@@ -1,4 +1,4 @@
-import random
+from random import choice, randrange, random
 from isbn import generar_isbn
 from libro import Libro
 
@@ -50,12 +50,11 @@ def auto_fill(n=30):
     catalogo = []
     for c in range(n):
         isbn = generar_isbn()
-        titulo = random.choice(posibles_titulos)
-        genero = random.choice(posibles_generos)
-        idioma = random.choice(posibles_idiomas)
-        precio = random.randrange(300) + round(random.random(), 2)
-        libro = Libro(isbn, titulo, genero, idioma, precio)
-        catalogo.append(libro)
+        titulo = choice(posibles_titulos)
+        genero = choice(posibles_generos)
+        idioma = choice(posibles_idiomas)
+        precio = randrange(300) + round(random(), 2)
+        catalogo.append(Libro(isbn, titulo, genero, idioma, precio))
     return catalogo
 
 

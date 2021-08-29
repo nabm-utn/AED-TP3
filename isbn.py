@@ -1,4 +1,4 @@
-import random
+from random import randrange
 
 
 def validar_isbn(posible_isbn):
@@ -24,18 +24,49 @@ def validar_isbn(posible_isbn):
     return not total % 11
 
 
+def isbn_error_msj(posible_isbn):
+    """
+    Variacion de validar_isbn, retorna 0 si posible_isbn es válido, y sino retorna un codigo indicando el error.
+    :param posible_isbn:
+    :return: int entre 0 y 1
+    """
+    if len(posible_isbn) != 13:
+        return "ISBN invalido, no tiene 13 caracteres"
+
+    grupos = posible_isbn.split("-")
+    if len(grupos) != 4:
+        return "ISBN invalido, no tiene 4 grupos numéricos"
+    for grupo in grupos:
+        if len(grupo) < 1:
+            return "ISBN invalido, un grupo numérico está vacío"
+
+    c_cifras = 10
+    total = 0
+    for char in posible_isbn:
+        if char.isnumeric():
+            total += c_cifras * int(char)
+            c_cifras -= 1
+        elif char != "-":
+            return "ISBN invalido, tiene caracteres distintos de números y guiones"
+
+    if not total % 11:
+        return "ISBN invalido, los digitos no respetan la regla de multiplicidad de 11"
+
+    return "ISBN valido"
+
+
 def generar_isbn():
     cifras = []
     total = 0
     # genera las primeras 8 cifras
     for c in range(8):
-        cifra = random.randrange(10)
+        cifra = randrange(10)
         cifras.append(cifra)
         total += (10-c) * cifra
 
     # genera la cifra 9
     resto = total % 11
-    estocastico = random.randrange(1, 7)
+    estocastico = randrange(1, 7)
     cifra_9 = (resto + estocastico) // 2
     cifras.append(cifra_9)
     total += 2*cifra_9
@@ -53,16 +84,17 @@ def generar_isbn():
 
     len_grupos = [1, 1, 1, 1]
     for s in range(6):
-        len_grupos[random.randrange(4)] += 1
+        len_grupos[randrange(4)] += 1
 
-    isbn = ""
+    nuevo_isbn = ""
     contador = 0
     for grupo in range(4):
         for c in range(len_grupos[grupo]):
-            isbn += str(cifras[contador])
+            nuevo_isbn += str(cifras[contador])
             contador += 1
-        isbn += "-"
-    return isbn[:-1]
+        nuevo_isbn += "-"
+    return nuevo_isbn[:-1]
+
 
 if __name__ == "__main__":
     print("\n"+"="*20+"TESTS"+"="*20+"\n")
