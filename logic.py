@@ -14,15 +14,17 @@ def actualizar_catalogo(catalogo):
 Por favor seleccione el tipo de carga a realizar
 1.) Manual
 2.) Automática
-3.) Cancelar"""
+3.) Volver al Menú Principal"""
     opcion = None
     while opcion != "3":
         print(menu.format(len(catalogo)))
         opcion = input("Ingrese una opción: ")
         if opcion == "1":
             catalogo += generar_catalogo_manual()
+            opcion = "3"
         elif opcion == "2":
             catalogo += generar_catalogo_automatico()
+            opcion = "3"
 
 
 def generar_catalogo_automatico():
