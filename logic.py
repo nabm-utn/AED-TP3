@@ -56,7 +56,7 @@ def solicitar_genero():
 
 
 def solicitar_idioma():
-    idioma = int(input('Seleccione un idioma (1-5): '))
+    idioma = int(input('Seleccione un idioma (1: español, 2: inglés, 3: francés, 4:italiano, 5:otros): '))
     while not validar_idioma(idioma):
         print('Error. Los códigos para identificar idioma van del 1 al 5, ingrese otro.')
         idioma = int(input('Idioma (1-5): '))
