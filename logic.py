@@ -21,10 +21,8 @@ Por favor seleccione el tipo de carga a realizar
         opcion = input("Ingrese una opción: ")
         if opcion == "1":
             catalogo += generar_catalogo_manual()
-            opcion = "3"
         elif opcion == "2":
             catalogo += generar_catalogo_automatico()
-            opcion = "3"
 
 
 def generar_catalogo_automatico():
