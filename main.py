@@ -1,13 +1,18 @@
 """
 Este es el programa principal. A continuación voy a armar una estructura base a partir de comentarios.
 """
-from logic import actualizar_catalogo, mostrar_libros_ordenados, conteo_y_genero_popular, libro_mas_caro_por_idioma
-from logic import buscar_y_subir_precio, mostrar_genero_popular, consulta_combo
+from logic import actualizar_catalogo, mostrar_libros_ordenados, conteo_y_genero_popular
+from logic import libro_mas_caro_por_idioma, buscar_y_subir_precio, mostrar_genero_popular, consulta_combo
 
 
-# ............................................. #
-# Parte 0.1 Menú de Opciones General
-# ............................................. #
+def catalogo_vacio(catalogo):
+    if len(catalogo) == 0:
+        print("No hay libros cargados en el catalogo. Le sugerimos que se dirija a la opción 1 del menu principal")
+        input("...")
+        return True
+    return False
+
+
 def menu_de_opciones(catalogo):
     opcion = None
     menu = """
@@ -29,21 +34,33 @@ Menú de opciones   |  Libros disponibles: {}
         if opcion == '1':
             actualizar_catalogo(catalogo)
         elif opcion == '2':
+            if catalogo_vacio(catalogo):
+                continue
             mostrar_libros_ordenados(catalogo)
             input("...")
         elif opcion == '3':
+            if catalogo_vacio(catalogo):
+                continue
             conteo_y_genero_popular(catalogo)
             input("...")
         elif opcion == '4':
+            if catalogo_vacio(catalogo):
+                continue
             libro_mas_caro_por_idioma(catalogo)
             input("...")
         elif opcion == '5':
+            if catalogo_vacio(catalogo):
+                continue
             buscar_y_subir_precio(catalogo)
             input("...")
         elif opcion == '6':
+            if catalogo_vacio(catalogo):
+                continue
             mostrar_genero_popular(catalogo)
             input("...")
         elif opcion == '7':
+            if catalogo_vacio(catalogo):
+                continue
             consulta_combo(catalogo)
             input("...")
         elif opcion == '8':

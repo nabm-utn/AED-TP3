@@ -4,6 +4,8 @@ from isbn import validar_isbn, isbn_error_msj
 from auto import auto_fill
 
 
+
+
 # ============================================= #
 # Consigna 1 Generación del vector de registros.
 # ============================================= #
