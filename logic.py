@@ -47,10 +47,12 @@ def solicitar_isbn():
 
 
 def solicitar_genero():
-    genero = int(input('Género (0-9): '))
+    msj = 'Género (0: Autoayuda, 1:Arte, 2: Ficción, 3: Computación, 4: Economía, 5: Escolar,\n' \
+          '6: Sociedad, 7: Gastronomía, 8: Infantil , 9: Otros): '
+    genero = int(input(msj))
     while not validar_genero(genero):
         print('Error. Los códigos para identificar el género van del 0 al 9, ingrese otro.')
-        genero = int(input('Género (0: Autoayuda, 1:Arte, 2: Ficción, 3: Computación, 4: Economía, 5: Escolar, 6: Sociedad, 7: Gastronomía, 8: Infantil , 9: Otros): '))
+        genero = int(input(msj))
     return genero
 
 

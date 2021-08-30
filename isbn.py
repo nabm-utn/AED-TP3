@@ -49,7 +49,7 @@ def isbn_error_msj(posible_isbn):
         elif char != "-":
             return "ISBN invalido, tiene caracteres distintos de números y guiones"
 
-    if not total % 11:
+    if total % 11:
         return "ISBN invalido, los digitos no respetan la regla de multiplicidad de 11"
 
     return "ISBN valido"
@@ -119,3 +119,6 @@ if __name__ == "__main__":
         print("generar_isbn: PASS!")
     else:
         print("{}% de errores...".format(errores / 100))
+
+    print("Ultimo testo...")
+    isbn_error_msj("451-567-43-89")
