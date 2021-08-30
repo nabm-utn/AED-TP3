@@ -50,7 +50,7 @@ def solicitar_genero():
     genero = int(input('Género (0-9): '))
     while not validar_genero(genero):
         print('Error. Los códigos para identificar el género van del 0 al 9, ingrese otro.')
-        genero = int(input('Género (0-9): '))
+        genero = int(input('Género (0: Autoayuda, 1:Arte, 2: Ficción, 3: Computación, 4: Economía, 5: Escolar, 6: Sociedad, 7: Gastronomía, 8: Infantil , 9: Otros): '))
     return genero
 
 
