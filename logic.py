@@ -46,9 +46,16 @@ def solicitar_isbn():
     return isbn
 
 
+def solicitar_titulo():
+    titulo = input('Título: ')
+    while len(titulo) == 0:
+        titulo = input('Título (No puede estar vacío): ')
+    return titulo
+
+
 def solicitar_genero():
-    msj = 'Género (0: Autoayuda, 1:Arte, 2: Ficción, 3: Computación, 4: Economía, 5: Escolar,\n' \
-          '6: Sociedad, 7: Gastronomía, 8: Infantil , 9: Otros): '
+    msj = 'Género (0: Autoayuda, 1:Arte, 2: Ficción, 3: Computación, 4: Economía, \n' \
+          '5: Escolar, 6: Sociedad, 7: Gastronomía, 8: Infantil , 9: Otros): '
     genero = int(input(msj))
     while not validar_genero(genero):
         print('Error. Los códigos para identificar el género van del 0 al 9, ingrese otro.')
@@ -71,7 +78,7 @@ def solicitar_precio():
 
 def generar_libro_manual():
     isbn = solicitar_isbn()
-    titulo = input('Título: ')
+    titulo = solicitar_titulo()
     genero = solicitar_genero()
     idioma = solicitar_idioma()
     precio = solicitar_precio()
@@ -83,7 +90,9 @@ def generar_libro_manual():
 # ............................................. #
 def mostrar_libros_ordenados(catalogo):
     ordenar_por_titulo(catalogo)
-    print("Estos son los libros disponibles")
+    print("\nEstos son los libros disponibles")
+    print("{:^15} | {:^11} | {:^8} | {:^10} | {:^33}".format("ISBN", "Género", "Idioma", "Precio", "Título"))
+    print("-"*90)
     for libro in catalogo:
         print(libro)
 
@@ -109,12 +118,13 @@ def ordenar_por_titulo(catalogo):
 # Consigna 3 Popularidad de Genero
 # ............................................. #
 def conteo_y_genero_popular(catalogo):
+    print()
     contador = contar_x_genero(catalogo)
     display_x_genero(contador)
     genero_popular = indice_maximo(contador)
     cantidad_popular = contador[genero_popular]
     genero_popular = genero_to_str(genero_popular)
-    print("El género más popular es {} con un total de {} libros".format(genero_popular, cantidad_popular))
+    print("\nEl género más popular es {} con un total de {} libros".format(genero_popular, cantidad_popular))
 
 
 def contar_x_genero(catalogo):
@@ -126,7 +136,7 @@ def contar_x_genero(catalogo):
 
 def display_x_genero(contador):
     for i in range(len(contador)):
-        print("El género {} contiene: {:02d} libros".format(genero_to_str(i), contador[i]))
+        print("Hay {:02d} libros para el género {}".format(contador[i], genero_to_str(i)))
 
 
 # ............................................. #
@@ -170,6 +180,7 @@ def sub_catalogo_idioma(catalogo, idioma):
 # Consigna 5 Busqueda por ISBN
 # ............................................. #
 def buscar_y_subir_precio(catalogo):
+    print("")
     isbn = solicitar_isbn()
     libro = busqueda_por_isbn(catalogo, isbn)
     if libro:
@@ -177,7 +188,7 @@ def buscar_y_subir_precio(catalogo):
         print(libro)
         aumentar_10(libro)
     else:
-        print("No se encontró el libro en cuestión")
+        print("No se encontró un libro con el ISBN especificado")
 
 
 def busqueda_por_isbn(catalogo, isbn):
@@ -188,10 +199,10 @@ def busqueda_por_isbn(catalogo, isbn):
 
 
 def aumentar_10(libro):
-    confirma = input("Presione s para subir precio 10%")
+    confirma = input("Desea aumentar el precio del libro en un 10%? (s/n): ")
     if confirma == "s" or confirma == "S":
         libro.precio *= 1.1
-        print("El nuevo precio es: ${}".format(libro.precio))
+        print("El nuevo precio es: ${}".format(round(libro.precio, 2)))
     else:
         print("Se mantiene el precio original: ${}".format(libro.precio))
 
@@ -205,6 +216,8 @@ def mostrar_genero_popular(catalogo):
     ordenar_por_precio(catalogo)
     catalogo = catalogo[::-1]
     print("\nListado de libros del genero más popular ({}):".format(genero_to_str(genero_popular)))
+    print("\n{:^15} | {:^11} | {:^8} | {:^10} | {:^33}".format("ISBN", "Género", "Idioma", "Precio", "Título"))
+    print("-"*90)
     for libro in catalogo:
         print(libro)
 
@@ -234,12 +247,12 @@ def ordenar_por_precio(catalogo):
 # Consigna 7 Consulta Combo
 # ............................................. #
 def solicitar_codigos():
-    print("A continuación, deberá introducir los códigos de los libros que sean de su interes.")
+    print("\nA continuación, deberá introducir los códigos de los libros que sean de su interes.")
     exit_flag = False
     codigos = []
     while not exit_flag:
-        print("Hasta ahora se han cargado {} codigos.".format(len(codigos)))
-        isbn = input("Por favor ingres un código ISBN válido. Ingrese 0 para salir\n")
+        print("\nHasta ahora se han cargado {} codigos.".format(len(codigos)))
+        isbn = input("Por favor ingres un código ISBN válido. Ingrese 0 para finalizar la carga:\n")
         if isbn == "0":
             exit_flag = True
         elif validar_isbn(isbn):
@@ -264,18 +277,22 @@ def consulta_combo(catalogo):
 
     # Avisa que libros no se encontraron
     if len(no_encontrados) > 0:
-        print("No se encontraron libros que correspondan a los siguientes {} códigos:".format(len(no_encontrados)))
+        print("\n{} de los códigos ingresados no están en el catálogo:".format(len(no_encontrados)))
         for codigo in no_encontrados:
             print(codigo)
 
     # Trabaja con los libros que se encontraron
     if len(encontrados) > 0:
-        print("Se encontraron los siguientes {} libros:".format(len(encontrados)))
+        print("\nLibros encontrados en el catálogo: {}".format(len(encontrados)))
+        print("\n{:^15} | {:^11} | {:^8} | {:^10} | {:^33}".format("ISBN", "Género", "Idioma", "Precio", "Título"))
+        print("-" * 90)
         precio_total = 0
         for libro in encontrados:
             print(libro)
             precio_total += libro.precio
-        print("\n"+"-"*60)
-        print("El precio por todos los libros es de: ${}".format(precio_total))
+        print("-"*90)
+        print("El precio por todos los libros disponibles es de: ${}".format(round(precio_total, 2)))
     else:
-        print("No se encontró ningún libro de los solicitados")
+        print("En este momento el catálogo no contiene ningún libro de los solicitados.")
+
+

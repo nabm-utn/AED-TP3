@@ -13,8 +13,8 @@ class Libro:
         self.precio = precio
 
     def __str__(self):
-        base = "[{}] {} | {} - {} | ${}"
+        base = "[{}] | {:<11} | {:>8} | ${:9.2f} | {}"
         generos = ("Autoayuda", "Arte", "Ficción", "Computación", "Economía",
                    "Escolar", "Sociedad", "Gastronomía", "Infantil", "Otros")
         idiomas = ("español", "inglés", "francés", "italiano", "otros")
-        return base.format(self.isbn, self.titulo, generos[self.genero], idiomas[self.idioma-1], self.precio)
+        return base.format(self.isbn, generos[self.genero], idiomas[self.idioma-1], self.precio, self.titulo)
