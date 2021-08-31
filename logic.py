@@ -294,5 +294,3 @@ def consulta_combo(catalogo):
         print("El precio por todos los libros disponibles es de: ${}".format(round(precio_total, 2)))
     else:
         print("En este momento el catálogo no contiene ningún libro de los solicitados.")
-
-
